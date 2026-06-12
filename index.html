@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Duplicate Lizard</title>
+    <link rel="icon" type="image/png" href="assets/apple-icon.png?v=20260612-0926">
+    <link rel="apple-touch-icon" href="assets/apple-icon.png?v=20260612-0926">
+    <link rel="stylesheet" href="styles.css?v=20260612-0926">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="top-bar">
+        <div class="brand-lockup">
+          <img src="assets/yelling-lizard-logo.png?v=20260612-0926" alt="" class="brand-logo" width="72" height="72">
+          <div>
+            <p class="eyebrow">Duplicate data finder</p>
+            <h1>Duplicate Lizard</h1>
+          </div>
+        </div>
+        <div class="action-bar" aria-label="Duplicate actions">
+          <details class="tools-menu">
+            <summary>Tools</summary>
+            <div class="tools-menu-list">
+              <a href="https://davidbreyer.github.io/format-lizard/">Format Lizard</a>
+              <a href="https://davidbreyer.github.io/compare-lizard/">Compare Lizard</a>
+              <a href="https://davidbreyer.github.io/mock-lizard/">Mock Lizard</a>
+              <a href="https://davidbreyer.github.io/duplicate-lizard/" aria-current="page">Duplicate Lizard</a>
+            </div>
+          </details>
+          <button id="openButton" type="button">Open</button>
+          <button id="scanButton" type="button" class="primary-button">Scan</button>
+          <button id="copyButton" type="button">Copy</button>
+          <button id="saveButton" type="button">Save</button>
+          <button id="clearButton" type="button" class="ghost-button">Clear</button>
+          <input id="fileInput" class="file-input" type="file" accept=".xml,.txt,application/xml,text/xml,text/plain">
+        </div>
+      </header>
+
+      <section class="control-panel" aria-label="Duplicate controls">
+        <div class="control-group">
+          <span class="control-group-title">Scan</span>
+          <div class="control-row">
+            <label class="field-label" for="formatSelect">Format</label>
+            <select id="formatSelect">
+              <option value="xml">XML</option>
+              <option value="json" disabled>JSON later</option>
+            </select>
+
+            <label class="field-label" for="scopeSelect">Scope</label>
+            <select id="scopeSelect">
+              <option value="same-parent">Same parent</option>
+            </select>
+
+            <label class="field-label" for="ruleSelect">Match</label>
+            <select id="ruleSelect">
+              <option value="key-value">Same key + same value</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <span class="control-group-title">Options</span>
+          <div class="control-row">
+            <label class="checkbox-control" for="normalizeWhitespace">
+              <input id="normalizeWhitespace" type="checkbox" checked>
+              <span>Normalize whitespace</span>
+            </label>
+            <label class="checkbox-control" for="caseSensitive">
+              <input id="caseSensitive" type="checkbox" checked>
+              <span>Case sensitive</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="status-row" aria-live="polite">
+        <div id="status" class="status-pill status-idle">Ready</div>
+        <div id="stats" class="stats">0 groups · 0 duplicates · 0 unique values</div>
+      </section>
+
+      <section class="summary-strip" aria-label="Duplicate summary">
+        <button class="summary-card groups-card" type="button" data-filter="all">
+          <span id="groupCount">0</span>
+          <strong>Groups</strong>
+        </button>
+        <button class="summary-card duplicates-card" type="button" data-filter="duplicates">
+          <span id="duplicateCount">0</span>
+          <strong>Duplicates</strong>
+        </button>
+        <button class="summary-card unique-card" type="button" data-filter="unique">
+          <span id="uniqueCount">0</span>
+          <strong>Unique</strong>
+        </button>
+        <button class="summary-card error-card" type="button" data-filter="errors">
+          <span id="errorCount">0</span>
+          <strong>Errors</strong>
+        </button>
+      </section>
+
+      <section class="workspace-grid">
+        <section class="editor-pane" aria-label="XML input">
+          <div class="pane-header">
+            <label for="sourceInput">Source XML</label>
+            <span id="sourceCount">0 chars</span>
+          </div>
+          <textarea id="sourceInput" spellcheck="false" aria-label="Source XML input"></textarea>
+        </section>
+
+        <section class="results-panel" aria-label="Duplicate results">
+          <div class="pane-header">
+            <label for="resultRows">Duplicate Groups</label>
+            <span id="resultCount">0 rows</span>
+          </div>
+          <div class="result-table" role="table" aria-describedby="resultCount">
+            <div class="result-head" role="row">
+              <span role="columnheader">Parent</span>
+              <span role="columnheader">Key</span>
+              <span role="columnheader">Value</span>
+              <span role="columnheader">Count</span>
+              <span role="columnheader">Locations</span>
+            </div>
+            <div id="resultRows" class="result-rows" role="rowgroup"></div>
+          </div>
+        </section>
+      </section>
+
+      <footer class="app-footer">
+        <span>Find repeated values before they find you.</span>
+        <span>
+          <a href="https://github.com/davidbreyer/duplicate-lizard" target="_blank" rel="noreferrer">GitHub</a>
+          <span id="releaseStamp" data-version>Version: 20260612-0926</span>
+        </span>
+      </footer>
+    </main>
+
+    <script src="script.js?v=20260612-0926"></script>
+  </body>
+</html>
