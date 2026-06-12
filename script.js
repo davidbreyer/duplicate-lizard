@@ -1,5 +1,6 @@
 const sourceInput = document.querySelector("#sourceInput");
 const formatSelect = document.querySelector("#formatSelect");
+const ruleSelect = document.querySelector("#ruleSelect");
 const normalizeWhitespace = document.querySelector("#normalizeWhitespace");
 const caseSensitive = document.querySelector("#caseSensitive");
 const openButton = document.querySelector("#openButton");
@@ -19,22 +20,13 @@ const uniqueCount = document.querySelector("#uniqueCount");
 const errorCount = document.querySelector("#errorCount");
 const releaseStamp = document.querySelector("#releaseStamp");
 
-const appRelease = "20260612-0926";
+const appRelease = "20260612-1005";
 
-const sampleXml = `<policies>
-  <policy>
-    <policyNumber>1234567</policyNumber>
-    <contractNumber>CN-10042</contractNumber>
-    <contractNumber>CN-10042</contractNumber>
-    <status>Active</status>
-  </policy>
-  <policy>
-    <policyNumber>7654321</policyNumber>
-    <contractNumber>CN-77310</contractNumber>
-    <status>Active</status>
-    <status>Active</status>
-  </policy>
-</policies>`;
+const sampleXml = `<properties>
+  <property name="Property.Duplicate.1" value="true" />
+  <property name="Property.Duplicate.1" value="false" />
+  <property name="Property.NotDuplicate.2" value="true" />
+</properties>`;
 
 let currentGroups = [];
 let currentStats = makeEmptyStats();
@@ -143,15 +135,16 @@ function scanElement(parent, parentPath, groups, stats) {
   const children = getElementChildren(parent);
 
   children.forEach((child, index) => {
-    const value = normalizeValue(child.textContent);
-    const bucketKey = `${child.nodeName}\u0000${value}`;
+    const duplicateKey = getDuplicateKey(child);
+    const value = getDisplayValue(child);
+    const bucketKey = normalizeBucketKey(duplicateKey);
 
     stats.uniqueKeys.add(bucketKey);
 
     if (!buckets.has(bucketKey)) {
       buckets.set(bucketKey, {
         parent: parentPath,
-        key: child.nodeName,
+        key: duplicateKey,
         value,
         locations: []
       });
@@ -185,6 +178,32 @@ function normalizeValue(value) {
   }
 
   return normalized;
+}
+
+function normalizeBucketKey(key) {
+  return caseSensitive.checked ? key : key.toLocaleLowerCase();
+}
+
+function getDuplicateKey(element) {
+  const attributeName = ["name", "key", "id"].find((name) => element.hasAttribute(name));
+
+  if (attributeName) {
+    return `${element.nodeName}[@${attributeName}=${normalizeValue(element.getAttribute(attributeName))}]`;
+  }
+
+  return `${element.nodeName}=${normalizeValue(element.textContent)}`;
+}
+
+function getDisplayValue(element) {
+  const attributeNames = element.getAttributeNames();
+
+  if (attributeNames.length) {
+    return attributeNames
+      .map((name) => `${name}=${JSON.stringify(element.getAttribute(name))}`)
+      .join(", ");
+  }
+
+  return normalizeValue(element.textContent);
 }
 
 function getElementChildren(element) {
@@ -295,7 +314,7 @@ function buildReport() {
     options: {
       format: formatSelect.value,
       scope: "same-parent",
-      match: "same-key-same-value",
+      match: ruleSelect.value,
       normalizeWhitespace: normalizeWhitespace.checked,
       caseSensitive: caseSensitive.checked
     },

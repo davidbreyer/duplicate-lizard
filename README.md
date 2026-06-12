@@ -1,15 +1,15 @@
 # Duplicate Lizard
 
-A small JavaScript app for finding duplicate values in XML documents.
+A small JavaScript app for finding duplicate keys in XML documents.
 
-Open `index.html` in a browser, paste XML into the editor, then use `Scan` to find repeated sibling elements with the same element name and normalized text value.
+Open `index.html` in a browser, paste XML into the editor, then use `Scan` to find repeated sibling elements with the same XML key. Duplicate Lizard treats `name`, `key`, or `id` attributes as the key when present, then falls back to element name plus normalized text.
 
 For logo, color, versioning, and publishing details, see [BRAND_AND_DEPLOYMENT.md](BRAND_AND_DEPLOYMENT.md).
 
 ## Features
 
 - Parse and validate one XML document.
-- Find duplicates under the same parent by element name and value.
+- Find duplicates under the same parent by XML key.
 - Normalize whitespace and optionally ignore case.
 - Copy or save the duplicate report as JSON.
 - Open local `.xml` or `.txt` files.
