@@ -10,6 +10,7 @@ For logo, color, versioning, and publishing details, see [BRAND_AND_DEPLOYMENT.m
 
 - Parse and validate one XML document.
 - Find duplicates under the same parent by XML key.
+- Separate total duplicate-group occurrences from extra duplicates to clean up.
 - Normalize whitespace and optionally ignore case.
 - Copy or save the duplicate report as JSON.
 - Open local `.xml` or `.txt` files.

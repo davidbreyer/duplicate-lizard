@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Duplicate Lizard</title>
-    <link rel="icon" type="image/png" href="assets/apple-icon.png?v=20260612-1005">
-    <link rel="apple-touch-icon" href="assets/apple-icon.png?v=20260612-1005">
-    <link rel="stylesheet" href="styles.css?v=20260612-1005">
+    <link rel="icon" type="image/png" href="assets/apple-icon.png?v=20260612-1123">
+    <link rel="apple-touch-icon" href="assets/apple-icon.png?v=20260612-1123">
+    <link rel="stylesheet" href="styles.css?v=20260612-1123">
   </head>
   <body>
     <main class="app-shell">
       <header class="top-bar">
         <div class="brand-lockup">
-          <img src="assets/yelling-lizard-logo.png?v=20260612-1005" alt="" class="brand-logo" width="72" height="72">
+          <img src="assets/yelling-lizard-logo.png?v=20260612-1123" alt="" class="brand-logo" width="72" height="72">
           <div>
             <p class="eyebrow">Duplicate data finder</p>
             <h1>Duplicate Lizard</h1>
@@ -76,7 +76,7 @@
 
       <section class="status-row" aria-live="polite">
         <div id="status" class="status-pill status-idle">Ready</div>
-        <div id="stats" class="stats">0 groups · 0 duplicates · 0 unique values</div>
+        <div id="stats" class="stats">0 groups · 0 occurrences · 0 extra duplicates</div>
       </section>
 
       <section class="summary-strip" aria-label="Duplicate summary">
@@ -84,9 +84,13 @@
           <span id="groupCount">0</span>
           <strong>Groups</strong>
         </button>
+        <button class="summary-card occurrences-card" type="button" data-filter="occurrences">
+          <span id="occurrenceCount">0</span>
+          <strong>Occurrences</strong>
+        </button>
         <button class="summary-card duplicates-card" type="button" data-filter="duplicates">
           <span id="duplicateCount">0</span>
-          <strong>Duplicates</strong>
+          <strong>Extra Duplicates</strong>
         </button>
         <button class="summary-card unique-card" type="button" data-filter="unique">
           <span id="uniqueCount">0</span>
@@ -117,7 +121,7 @@
               <span role="columnheader">Parent</span>
               <span role="columnheader">Key</span>
               <span role="columnheader">Value</span>
-              <span role="columnheader">Count</span>
+              <span role="columnheader">Occurrences</span>
               <span role="columnheader">Locations</span>
             </div>
             <div id="resultRows" class="result-rows" role="rowgroup"></div>
@@ -129,11 +133,11 @@
         <span>Find repeated values before they find you.</span>
         <span>
           <a href="https://github.com/davidbreyer/duplicate-lizard" target="_blank" rel="noreferrer">GitHub</a>
-          <span id="releaseStamp" data-version>Version: 20260612-1005</span>
+          <span id="releaseStamp" data-version>Version: 20260612-1123</span>
         </span>
       </footer>
     </main>
 
-    <script src="script.js?v=20260612-1005"></script>
+    <script src="script.js?v=20260612-1123"></script>
   </body>
 </html>

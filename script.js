@@ -15,12 +15,13 @@ const sourceCount = document.querySelector("#sourceCount");
 const resultCount = document.querySelector("#resultCount");
 const resultRows = document.querySelector("#resultRows");
 const groupCount = document.querySelector("#groupCount");
+const occurrenceCount = document.querySelector("#occurrenceCount");
 const duplicateCount = document.querySelector("#duplicateCount");
 const uniqueCount = document.querySelector("#uniqueCount");
 const errorCount = document.querySelector("#errorCount");
 const releaseStamp = document.querySelector("#releaseStamp");
 
-const appRelease = "20260612-1005";
+const appRelease = "20260612-1123";
 
 const sampleXml = `<properties>
   <property name="Property.Duplicate.1" value="true" />
@@ -125,7 +126,8 @@ function scanXmlDuplicates(root) {
 
   scanElement(root, `/${root.nodeName}`, groups, stats);
   stats.groups = groups.length;
-  stats.duplicates = groups.reduce((sum, group) => sum + group.count, 0);
+  stats.occurrences = groups.reduce((sum, group) => sum + group.count, 0);
+  stats.extraDuplicates = groups.reduce((sum, group) => sum + group.count - 1, 0);
 
   return { groups, stats };
 }
@@ -229,7 +231,7 @@ function renderResults() {
         makeCell(group.parent, "Parent"),
         makeCell(group.key, "Key"),
         makeCell(formatValue(group.value), "Value"),
-        makeCell(group.count, "Count"),
+        makeCell(group.count, "Occurrences"),
         makeCell(group.locations.join(", "), "Locations")
       );
       fragment.append(row);
@@ -239,11 +241,12 @@ function renderResults() {
   }
 
   groupCount.textContent = currentGroups.length;
-  duplicateCount.textContent = currentStats.duplicates;
+  occurrenceCount.textContent = currentStats.occurrences;
+  duplicateCount.textContent = currentStats.extraDuplicates;
   uniqueCount.textContent = currentStats.uniqueKeys.size;
   errorCount.textContent = currentStats.errors;
   resultCount.textContent = `${currentGroups.length} ${currentGroups.length === 1 ? "row" : "rows"}`;
-  stats.textContent = `${currentGroups.length} groups · ${currentStats.duplicates} duplicates · ${currentStats.uniqueKeys.size} unique values`;
+  stats.textContent = `${currentGroups.length} groups · ${currentStats.occurrences} occurrences · ${currentStats.extraDuplicates} extra duplicates`;
 }
 
 function makeCell(value, label) {
@@ -320,7 +323,8 @@ function buildReport() {
     },
     summary: {
       groups: currentGroups.length,
-      duplicates: currentStats.duplicates,
+      occurrences: currentStats.occurrences,
+      extraDuplicates: currentStats.extraDuplicates,
       uniqueValues: currentStats.uniqueKeys.size,
       errors: currentStats.errors
     },
@@ -340,7 +344,8 @@ function clearAll() {
 function makeEmptyStats() {
   return {
     groups: 0,
-    duplicates: 0,
+    occurrences: 0,
+    extraDuplicates: 0,
     errors: 0,
     uniqueKeys: new Set()
   };
