@@ -21,7 +21,7 @@ const uniqueCount = document.querySelector("#uniqueCount");
 const errorCount = document.querySelector("#errorCount");
 const releaseStamp = document.querySelector("#releaseStamp");
 
-const appRelease = "20260617-2109";
+const appRelease = "20260709-2041";
 
 const sampleXml = `<properties>
   <property name="Property.Duplicate.1" value="true" />
